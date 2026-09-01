@@ -52,7 +52,7 @@ zcat pdb_chain_pfam.tsv.gz \
   > kinase_structures_allchains.tsv
 
 # 与本地*.pdb 比对，得到真正属于 kinase 子集的文件
-ls 1*.pdb | sed 's/\.pdb//' | sort > local_pdbs.txt
+ls *.pdb | sed 's/\.pdb//' | sort > local_pdbs.txt
 comm -12 local_pdbs.txt kinase_pdbs.txt > local_kinase.txt
 wc -l local_kinase.txt
 cat local_kinase.txt
