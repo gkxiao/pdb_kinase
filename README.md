@@ -127,5 +127,21 @@ PDB 里被覆盖的人类经典激酶（按 UniProt 去重）是 309 个蛋白�
 
 - 12,471 条去重 kinase 链里，人类（9606）占 10,669 条（85.5%）—— 激酶结构高度集中在人类，符合它作为最热门药物靶标家族的事实。
 - 人类链去重到 **309 个 UniProt 蛋白**。对照人类经典 ePK 总数 **478**（Manning 2002），即 **PDB 已覆盖约 65%** 。
+- **309 里可能混入 "假激酶"（pseudokinase）**：PF00069/PF07714 是序列域判定，含 Pkinase 域但催化活性缺失的蛋白也会进来（如 HER3/ERBB3、STRAD、VRK3、ILK、KSR1/2 等）。所以 "有激酶活性的 ePK" 覆盖率实际略低于 65%。
+- **冗余度极高**：10,669 人类链 / 309 蛋白 ≈ **每个蛋白平均 34 条结构**—— 比之前全库的 25 还高。
 
+## 6. 聚焦人类激酶的库
+
+```bash
+# ① 人类激酶结构级 PDB 数（你要下载多少个人类激酶结构）
+awk -F'\t' '{print $1}' human_kinase_pdb_chain.txt | sort -u | wc -l
+
+6884
+# ② 人类激酶 UniProt 列表（后续打 is_classical/is_pseudokinase 标签用）
+awk -F'\t' 'NR==FNR{key[$1 FS $2]=1;next} key[$1 FS $2]{print $3}' \
+  human_kinase_pdb_chain.txt kinase_chains.tsv | sort -u > human_kinase_uniprot.txt
+wc -l human_kinase_uniprot.txt
+
+309
+```
 
