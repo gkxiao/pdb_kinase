@@ -123,6 +123,8 @@ awk -F'\t' 'NR==FNR{key[$1 FS $2]=1;next} key[$1 FS $2]{print $3}' \
 `309`
 ```
 
+<img src="https://github.com/gkxiao/pdb_kinase/blob/main/Species-distribution-of-kinase-chains.png" align='middle'>
+
 PDB 里被覆盖的人类经典激酶（按 UniProt 去重）是 309 个蛋白：
 
 - 12,471 条去重 kinase 链里，人类（9606）占 10,669 条（85.5%）—— 激酶结构高度集中在人类，符合它作为最热门药物靶标家族的事实。
