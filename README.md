@@ -95,3 +95,37 @@ wc -l pikk_pdbs.txt
 191 pikk_pdbs.txt
 ```
 
+## 5. 人类激酶
+我们对人类的激酶感兴趣，因此需要聚焦。
+```bash
+# 下载链级 taxonomy 文件（先看列结构）
+wget https://ftp.ebi.ac.uk/pub/databases/msd/sifts/flatfiles/tsv/pdb_chain_taxonomy.tsv.gz
+zcat pdb_chain_taxonomy.tsv.gz | head -3
+
+# kinase 链的 (PDB, CHAIN) 键
+awk -F'\t' '{print $1"\t"$2}' kinase_chains.tsv | sort -u > kinase_pdb_chain.txt
+
+# 统计 kinase 链的物种分布（看 9606 人类排第几）
+zcat pdb_chain_taxonomy.tsv.gz \
+  | awk -F'\t' 'NR==FNR{key[$1 FS $2]=1;next} key[$1 FS $2]{print $3}' \
+    kinase_pdb_chain.txt - | sort | uniq -c | sort -rn | head -20
+
+# 人类(9606) kinase 链 → 键列表
+zcat pdb_chain_taxonomy.tsv.gz \
+  | awk -F'\t' 'NR==FNR{key[$1 FS $2]=1;next} key[$1 FS $2] && $3=="9606"{print $1 FS $2}' \
+    kinase_pdb_chain.txt - > human_kinase_pdb_chain.txt
+wc -l human_kinase_pdb_chain.txt
+
+# 人类 kinase 链去重后的 UniProt 蛋白数（真正的"人类激酶被 PDB 覆盖数"）
+awk -F'\t' 'NR==FNR{key[$1 FS $2]=1;next} key[$1 FS $2]{print $3}' \
+  human_kinase_pdb_chain.txt kinase_chains.tsv | sort -u | wc -l
+
+`309`
+```
+
+PDB 里被覆盖的人类经典激酶（按 UniProt 去重）是 309 个蛋白：
+
+- 12,471 条去重 kinase 链里，人类（9606）占 10,669 条（85.5%）—— 激酶结构高度集中在人类，符合它作为最热门药物靶标家族的事实。
+- 人类链去重到 **309 个 UniProt 蛋白**。对照人类经典 ePK 总数 **478**（Manning 2002），即 **PDB 已覆盖约 65%** 。
+
+
