@@ -144,4 +144,5 @@ wc -l human_kinase_uniprot.txt
 
 309
 ```
+<img src="https://github.com/gkxiao/pdb_kinase/blob/main/the-size-of-human-kinase-in-pdb-202608.png" align='middle'>
 
