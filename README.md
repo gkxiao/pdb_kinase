@@ -145,3 +145,46 @@ wc -l human_kinase_uniprot.txt
 309
 ```
 
+{
+  backgroundColor: "transparent",
+  title: {
+    text: "人类经典激酶库规模（PDB）",
+    subtext: "数据：SIFTS pdb_chain_pfam + pdb_chain_taxonomy 2026.08，本地统计",
+    left: "center",
+    textStyle: { color: "#1A1B1C", fontSize: 15, fontWeight: 600 }
+  },
+  tooltip: {
+    trigger: "axis",
+    triggerOn: "click",
+    renderMode: "richText",
+    confine: true,
+    textStyle: { fontSize: 10, lineHeight: 14 },
+    padding: [6, 8]
+  },
+  grid: { left: 8, right: 60, top: 76, bottom: 28, containLabel: true },
+  xAxis: {
+    type: "value",
+    name: "数量",
+    axisLabel: { color: "#555", fontSize: 11 },
+    nameTextStyle: { color: "#6B7280", fontSize: 11 }
+  },
+  yAxis: {
+    type: "category",
+    inverse: true,
+    data: ["UniProt 蛋白", "PDB 结构", "PDB 链"],
+    axisLabel: { color: "#333", fontSize: 12 },
+    axisLine: { show: false },
+    axisTick: { show: false }
+  },
+  series: [{
+    name: "数量",
+    type: "bar",
+    barWidth: "48%",
+    data: [
+      { value: 309, itemStyle: { color: "#8BC8EA", borderRadius: [0,4,4,0] } },
+      { value: 6884, itemStyle: { color: "#9BBBF4", borderRadius: [0,4,4,0] } },
+      { value: 10669, itemStyle: { color: "#C9A7E8", borderRadius: [0,4,4,0] } }
+    ],
+    label: { show: true, position: "right", fontSize: 11, color: "#333" }
+  }]
+}
