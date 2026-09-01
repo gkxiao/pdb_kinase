@@ -63,3 +63,5 @@ cat local_kinase.txt
 
 - **经典真核蛋白激酶（ePK）**：PF00069 + PF07714 全覆盖（S/T 和 Y 激酶）。
 - **非典型激酶（atypical）**：PIKK 家族（ATM/ATR/DNA-PK）、PI3K、alpha-kinase 等的催化域**不属于** Pkinase 折叠，SCOP/CATH 归到不同超家族。若你只做经典激酶抑制剂研究，PF00069/PF07714 正好；若想含 PI3K 等，要额外加对应 accession（如 PIKK）。
+
+人类非经典激酶数量有限，基因名单见附件`atypical_genes.txt`
