@@ -43,6 +43,7 @@ head kinase_chains.tsv
 # 结构级白名单：含 kinase 链的 PDB 列表（判定单位 = 结构）
 awk -F'\t' '{print $1}' kinase_chains.tsv | sort -u > kinase_pdbs.txt
 wc -l kinase_pdbs.txt
+`8024 kinase_pdbs.txt`
 
 # 这些结构的全部链注释（含 non-kinase 链，header 是第 2 行）
 # 建库时整结构保留，这张表用于后续标注"哪条链是 kinase 链"
@@ -56,3 +57,9 @@ comm -12 local_pdbs.txt kinase_pdbs.txt > local_kinase.txt
 wc -l local_kinase.txt
 cat local_kinase.txt
 ```
+现在得到了含有经典激酶结构域的PDB结构列表，注意，这并不包含非经典激酶。
+
+## 3. "kinase" 的定义决定库的边界：
+
+- **经典真核蛋白激酶（ePK）**：PF00069 + PF07714 全覆盖（S/T 和 Y 激酶）。
+- **非典型激酶（atypical）**：PIKK 家族（ATM/ATR/DNA-PK）、PI3K、alpha-kinase 等的催化域**不属于** Pkinase 折叠，SCOP/CATH 归到不同超家族。若你只做经典激酶抑制剂研究，PF00069/PF07714 正好；若想含 PI3K 等，要额外加对应 accession（如 PIKK）。
