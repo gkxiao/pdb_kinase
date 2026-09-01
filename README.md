@@ -65,3 +65,9 @@ cat local_kinase.txt
 - **非典型激酶（atypical）**：PIKK 家族（ATM/ATR/DNA-PK）、PI3K、alpha-kinase 等的催化域**不属于** Pkinase 折叠，SCOP/CATH 归到不同超家族。若你只做经典激酶抑制剂研究，PF00069/PF07714 正好；若想含 PI3K 等，要额外加对应 accession（如 PIKK）。
 
 人类非经典激酶数量有限，基因名单见附件`atypical_genes.txt`
+
+## 4. 非典型激酶
+- **PIKK 家族**（DNA-PKcs、ATM、ATR、mTOR、SMG1、TRRAP）与 PI3K 属于同一个 "PI3K 超家族"：保守 C 端催化域与脂质 PI3K 同源，但磷酸化 Ser/ThrPMCPMC*
+- PIKK 催化域在 **Pfam 里就标注为 PI3_PI4_kinase（PF00454）**，并额外带 **FAT（PF02259）+ FATC（PF02260）** 特征域 —— 所以用 PF00454 能一次覆盖 PI3K/PI4K/PIKK 全部催化域，再用 FAT/FATC 把 PIKK 单独区分出来
+- **alpha-kinase 家族**（eEF2K、ALPK1-3、TRPM6/7）：催化域与经典 ePK 无序列同源性，是独立折叠
+- - **RIO 激酶**（RIOK1-3）：RIO 域是 ePK 催化域的 "修剪版"，常归入 atypicalPLOS
