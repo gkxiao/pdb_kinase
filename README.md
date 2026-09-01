@@ -34,6 +34,25 @@ head kinase_chains.tsv
 10hm    D       Q382U0  PF00069 1
 10hm    E       Q382U0  PF00069 1
 10hm    F       Q382U0  PF00069 1
-···
+```
+输出格式是 `PDB<TAB>CHAIN<TAB>SP_PRIMARY<TAB>PFAM_ID<TAB>COVERAGE`。
+其中`SP_PRIMARY` 列就是 **UniProt accession**，可以作为PDB/UniProt 的注释，同时解决 "识别 kinase 链"。
 
+## 2. 将含激酶的链转为含激酶的PDB code
+```bash
+# 结构级白名单：含 kinase 链的 PDB 列表（判定单位 = 结构）
+awk -F'\t' '{print $1}' kinase_chains.tsv | sort -u > kinase_pdbs.txt
+wc -l kinase_pdbs.txt
 
+# 这些结构的全部链注释（含 non-kinase 链，header 是第 2 行）
+# 建库时整结构保留，这张表用于后续标注"哪条链是 kinase 链"
+zcat pdb_chain_pfam.tsv.gz \
+  | awk -F'\t' 'NR==FNR{k[$1]=1;next} FNR==2 || k[$1]' kinase_pdbs.txt - \
+  > kinase_structures_allchains.tsv
+
+# 与本地*.pdb 比对，得到真正属于 kinase 子集的文件
+ls 1*.pdb | sed 's/\.pdb//' | sort > local_pdbs.txt
+comm -12 local_pdbs.txt kinase_pdbs.txt > local_kinase.txt
+wc -l local_kinase.txt
+cat local_kinase.txt
+```
